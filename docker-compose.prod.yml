@@ -1,0 +1,7 @@
+version: "3.8"
+
+services:
+  backend:
+    image: your-dockerhub-username/node-backend:prod
+    ports:
+      - "3000:3000"
