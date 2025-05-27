@@ -8,8 +8,8 @@ pipeline {
     AWS_ACCOUNT_ID        = "${AWS_ACCOUNT_ID}"
     IMAGE_TAG             = "${BUILD_NUMBER}"
     ECR_REPO              = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/pos-server"
-    DB_USER               = credentials('aurora-db-user')
-    DB_PASS               = credentials('aurora-db-password')
+    DB_USER               = "${DEV_RDS_USER}"
+    DB_PASS               = "${DEV_PASS}"
   }
 
   stages {
@@ -39,7 +39,7 @@ pipeline {
 
     stage('Deploy to Dev (port 3000)') {
       environment {
-        DB_HOST = 'aurora-crm-dev.cluster-xxxx.ap-south-1.rds.amazonaws.com'
+        DB_HOST = "${DEV_DB_HOST}"
       }
       steps {
         sh '''
@@ -60,7 +60,8 @@ pipeline {
 
     stage('Deploy to Prod (port 3001)') {
       environment {
-        DB_HOST = 'aurora-crm-prod.cluster-xxxx.ap-south-1.rds.amazonaws.com'
+        DB_HOST = "${PROD_DB_HOST}"
+        DB_PASS = "${PROD_DB_PASS}"
       }
       steps {
         sh '''
