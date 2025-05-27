@@ -40,14 +40,14 @@ pipeline {
     stage('Deploy to Dev (port 3000)') {
       environment {
         DB_HOST = "${DEV_DB_HOST}"
-        DB_HOST = "${DEV_DB_NAME}"
+        DB_NAME = "${DEV_DB_NAME}"
       }
       steps {
         sh '''
           docker stop app-dev || true
           docker rm app-dev || true
           docker run -d --name app-dev -p 3000:3000 \
-            -e DB_HOST=$DB_HOST -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS -e DB_NAME=$\
+            -e DB_HOST=$DB_HOST -e DB_USER=$DB_USER -e DB_PASS=$DB_PASS -e DB_NAME=$DB_NAME \
             $ECR_REPO:$IMAGE_TAG
         '''
       }
