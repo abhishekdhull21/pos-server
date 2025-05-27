@@ -5,7 +5,7 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
     // const status = await checkDBConnection();
-  res.json({done:"l"});
+  res.json({let: process.env});
 });
 
 module.exports = router;
