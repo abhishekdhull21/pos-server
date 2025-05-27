@@ -7,7 +7,7 @@ pipeline {
     AWS_REGION            = "${AWS_REGION}"
     AWS_ACCOUNT_ID        = "${AWS_ACCOUNT_ID}"
     IMAGE_TAG             = "${BUILD_NUMBER}"
-    ECR_REPO              = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/pos-server"
+    ECR_REPO              = "${ECR_REPO}"
     DB_USER               = "${DEV_RDS_USER}"
     DB_PASS               = "${DEV_PASS}"
   }
@@ -30,7 +30,7 @@ pipeline {
     stage('Push to ECR') {
       steps {
         sh '''
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
           docker tag pos-server:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
           docker push $ECR_REPO:$IMAGE_TAG
         '''
