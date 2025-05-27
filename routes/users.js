@@ -1,11 +1,12 @@
 var express = require('express');
 const { checkDBConnection } = require('../config/db');
-var router = express.Router();
+const { getUserById } = require('../db/models/userModel');
+var userRouter = express.Router();
 
 /* GET users listing. */
-router.get('/', async function(req, res, next) {
+userRouter.get('/', async function(req, res, next) {
     // const status = await checkDBConnection();
-  res.json({let: process.env});
+  res.json({let: await getUserById(20)});
 });
 
-module.exports = router;
+module.exports = userRouter;
